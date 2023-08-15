@@ -1,48 +1,34 @@
-import { hasChildren, getFamily } from '../utils/checkboxTree';
-import { useState, useRef } from 'react';
+import { pathHasChildren, parseDecendants, descendantsAmount } from '../utils/checkboxTree';
 
-export default function CheckboxTree({ options, cascading, parentState }) {
-  if (!options) return;
-  if (!cascading) {
-    if (!hasChildren(options)) {
-      return (
-        <>
-          {options.map((option) => {
-            return (
-              <ul>
-                <li key={option}>
-                  <input type='checkbox' name={option} value='present' id={option} />
-                  <label htmlFor={option}>{option}</label>
-                </li>
-              </ul>
-            );
-          })}
-        </>
+export default function CheckboxTree({ paths }) {
+  debugger;
+  const jsx = [];
+  let i = 0;
+  while (i < paths.length) {
+    if (!pathHasChildren(paths[i], paths[i + 1])) {
+      jsx.push(
+        <li key={paths[i]}>
+          <input type='checkbox' name={paths[i]} id={paths[i]} />
+          <label htmlFor={paths[i]}>{paths[i]}</label>
+        </li>,
       );
+    } else {
+      const decendants = parseDecendants(paths, i);
+      jsx.push(
+        <li key={paths[i]}>
+          <input type='checkbox' name={paths[i]} id={paths[i]} />
+          <label htmlFor={paths[i]}>{paths[i]}</label>
+          <CheckboxTree paths={decendants} />
+        </li>,
+      );
+      i = i + descendantsAmount(paths, i);
     }
-
-    /* [
-        'uk', -> parent
-        'uk.north', -> children
-        'ak', -> uncle
-      ]; */
-    const [parent, children, uncle] = getFamily(options);
-    const [childrenState, setChildrenState] = useState('uncheck');
-    const parentBox = useRef(null);
-    /* parentBox.current. */
-
-    return (
-      <>
-        <ul>
-          <li>
-            <input ref={parentBox} type='checkbox' name={parent[0]} value='present' id={parent[0]} />
-            <label htmlFor={parent[0]}>{parent[0]}</label>
-
-            <CheckboxTree options={children} cascading={cascading} />
-          </li>
-        </ul>
-        <CheckboxTree options={uncle} cascading={cascading} />
-      </>
-    );
+    i++;
   }
+
+  return (
+    <>
+      <ul>{jsx}</ul>
+    </>
+  );
 }

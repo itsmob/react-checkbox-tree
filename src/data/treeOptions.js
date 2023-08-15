@@ -1,29 +1,17 @@
 export const treeOptions = [
-  'uk',
-  'uk.north',
-  'uk.north.ne',
-  'uk.north.nw',
-  'uk.north.roaming',
-  'uk.north.scotland',
-  'uk.south',
-  'uk.temp',
-  'ak',
-  'ak.a',
+  'item1',
+  'item2',
+  'item2.item3',
+  'item4',
+  'item4.item5',
+  'item4.item5.item6',
+  'item4.item5.item7',
+  'item4.item5.item7.item8',
+  'item4.item5.item7.item9',
+  'item4.item5.item10',
+  'item11',
+  'item11.item12',
+  'item11.item12.item13',
+  'item11.item12.item13.item14',
+  'item11.item12.item13.item14.item15',
 ];
-
-//tested and passed
-/* export const treeOptions = [
-  'uk',
-  'uk.north',
-  'uk.north.ne',
-  'uk.north.nw',
-  'uk.north.roaming',
-  'uk.north.scotland',
-  'uk.south',
-  'uk.temp',
-]; */
-//export const treeOptions = ['uk', 'uk.north', 'usa'];
-//export const treeOptions = ['uk', 'uk.north', 'uk.south'];
-//export const treeOptions = ['ik', 'as'];
-//export const treeOptions = ['uk'];
-//export const treeOptions = [];

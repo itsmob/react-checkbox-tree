@@ -4,7 +4,7 @@ import { treeOptions } from './data/treeOptions';
 function App() {
   return (
     <>
-      <CheckboxTree options={treeOptions} cascading={false} />
+      <CheckboxTree paths={treeOptions} />
     </>
   );
 }
