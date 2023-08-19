@@ -1,29 +1,49 @@
-export function pathHasChildren(currentPath, nextPath) {
-  return head(currentPath) == head(nextPath) ? true : false;
-}
+export function createObjectsFromPaths(array, i = 0, lvl = 0, until) {
+  /* debugger; */
+  const data = [];
 
-export function descendantsAmount(array, parentIndex) {
-  let count = 1;
-  while (pathHasChildren(array[parentIndex], array[parentIndex + count + 1])) {
-    count++;
+  while (i < array.length) {
+    if (!pathHasChildren(array, i, lvl)) {
+      data.push({
+        id: array[i],
+        name: pathName(array[i]),
+        children: null,
+      });
+    } else {
+      //DA stands for decendant amout
+      const DA = decendantAmount(array, i, lvl);
+      data.push({
+        id: array[i],
+        name: pathName(array[i]),
+        children: createObjectsFromPaths(array, i + 1, lvl + 1, i + DA),
+      });
+      i = i + DA;
+    }
+    if (i == until) return data;
+    i++;
   }
-  return count;
+
+  return data;
 }
 
-export function parseDecendants(array, parentIndex) {
-  return eraseHeads(getDecendants(array, parentIndex));
+function decendantAmount(array, i, lvl) {
+  let amount = 1;
+  if (!array[i + amount + 1]) return amount;
+  while (array[i].split('.')[lvl] == array[i + amount + 1].split('.')[lvl]) {
+    amount++;
+    if (!array[i + amount + 1]) return amount;
+  }
+  return amount;
 }
 
-function getDecendants(array, parentIndex) {
-  return array.slice(parentIndex + 1, parentIndex + descendantsAmount(array, parentIndex) + 1);
+function pathHasChildren(array, i, lvl) {
+  if (!array[i + 1]) return false;
+  const root1 = array[i].split('.')[lvl];
+  const root2 = array[i + 1].split('.')[lvl];
+  return root1 == root2;
 }
 
-function eraseHeads(array) {
-  return array.map((path) => path.split('.').slice(1).join('.'));
-}
-
-function head(path) {
-  if (!path) return null;
-  // path = 'a.b.c' -head-> 'a'
-  return path.split('.').shift();
+function pathName(path) {
+  //path = 'a.b.c' -> 'c'
+  return path.split('.').pop();
 }

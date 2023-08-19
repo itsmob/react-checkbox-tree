@@ -1,4 +1,4 @@
-export const treeOptions = [
+export const paths = [
   'item1',
   'item2',
   'item2.item3',

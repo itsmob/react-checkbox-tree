@@ -1,10 +1,11 @@
 import CheckboxTree from './components/CheckboxTree';
-import { treeOptions } from './data/treeOptions';
+import { paths } from './data/paths';
+import { createObjectsFromPaths } from './utils/checkboxTree';
 
 function App() {
   return (
     <>
-      <CheckboxTree paths={treeOptions} />
+      <CheckboxTree paths={createObjectsFromPaths(paths)} />
     </>
   );
 }
